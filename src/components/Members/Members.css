@@ -1,0 +1,22 @@
+.headsContainer {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  overflow-x: auto;
+}
+
+.headsContainer img {
+  height: 100%;
+}
+.headsContainer img:hover {
+  cursor: pointer;
+}
+
+.headsContainer span {
+  position: absolute;
+  background-color: #00000050;
+  padding: 0 5px;
+  color: #fff;
+}

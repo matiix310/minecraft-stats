@@ -10,6 +10,7 @@ type PlayersPlaytimeData = {
 
 const PlayersPlayTime = ({ playersData }: PlayersPlaytimeData) => {
   var style = getComputedStyle(document.body);
+  const mainColor = style.getPropertyValue("--background");
 
   const defaultPlayersPlaytimeData: ChartData<"pie", (number | Point | null)[], unknown> =
     {
@@ -30,7 +31,6 @@ const PlayersPlayTime = ({ playersData }: PlayersPlaytimeData) => {
   };
 
   useEffect(() => {
-    const mainColor = style.getPropertyValue("--background");
     Chart.defaults.color = mainColor;
 
     setPlayersPlaytimeData({
@@ -43,7 +43,7 @@ const PlayersPlayTime = ({ playersData }: PlayersPlaytimeData) => {
         },
       ],
     });
-  }, [style, playersData]);
+  }, [mainColor, playersData]);
 
   return <Pie data={playersPlaytimeData} options={defaultPlayersPlaytimeOptions} />;
 };

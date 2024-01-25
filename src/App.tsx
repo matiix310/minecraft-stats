@@ -7,6 +7,7 @@ import PlayersPlayTime from "./components/PlayersPlaytime";
 import { CountryData, PlayerData, getCountries, getPlayers } from "./db";
 import { useEffect, useState } from "react";
 import CountriesPlayTime from "./components/CountriesPlaytime";
+import Members from "./components/Members/Members";
 
 Chart.register(CategoryScale);
 Chart.defaults.color = "#ffffff";
@@ -17,15 +18,8 @@ function App() {
   const [playersData, setPlayersData] = useState<PlayerData[]>();
 
   useEffect(() => {
-    getCountries().then((data) => {
-      setCountriesData(data);
-      console.log(data);
-    });
-
-    getPlayers().then((data) => {
-      setPlayersData(data);
-      console.log(data);
-    });
+    getCountries().then(setCountriesData);
+    getPlayers().then(setPlayersData);
   }, []);
 
   return (
@@ -39,7 +33,9 @@ function App() {
           </div>
         </div>
         {/* Members */}
-        <div className="bento"></div>
+        <div className="bento">
+          {playersData && <Members playersData={playersData} />}
+        </div>
         {/* Server status */}
         <div className="bento"></div>
         {/* Player list */}

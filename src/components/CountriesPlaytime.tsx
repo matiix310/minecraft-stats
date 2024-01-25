@@ -11,6 +11,7 @@ type CountriesPlaytimeData = {
 
 const CountriesPlayTime = ({ playersData, countriesData }: CountriesPlaytimeData) => {
   var style = getComputedStyle(document.body);
+  const mainColor = style.getPropertyValue("--background");
 
   const defaultPlayersPlaytimeData: ChartData<"pie", (number | Point | null)[], unknown> =
     {
@@ -31,7 +32,6 @@ const CountriesPlayTime = ({ playersData, countriesData }: CountriesPlaytimeData
   };
 
   useEffect(() => {
-    const mainColor = style.getPropertyValue("--background");
     Chart.defaults.color = mainColor;
 
     setPlayersPlaytimeData({
@@ -52,7 +52,7 @@ const CountriesPlayTime = ({ playersData, countriesData }: CountriesPlaytimeData
         },
       ],
     });
-  }, [style, countriesData, playersData]);
+  }, [mainColor, countriesData, playersData]);
 
   return <Pie data={playersPlaytimeData} options={defaultPlayersPlaytimeOptions} />;
 };
