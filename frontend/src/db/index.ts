@@ -84,7 +84,7 @@ const getPlayers = async () => {
       name: player.username,
       countryCode: player.country_code,
       role: player.role,
-      playtime: 1,
+      playtime: player.playtime,
     };
   });
 
