@@ -13,7 +13,6 @@ const ServerStatus = () => {
     mcs
       .statusJava(serverIp, 25565, { query: true })
       .then((result: any) => {
-        console.log(result);
         setOnline(true);
         setServerIcon(result.icon);
         setMotd(result.motd.html);

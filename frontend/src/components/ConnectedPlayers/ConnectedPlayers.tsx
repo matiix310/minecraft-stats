@@ -20,7 +20,7 @@ const ConnectedPlayers = ({ countriesData, playersData }: ConnectedPlayersParam)
 
   useEffect(() => {
     getConnectedPlayers(countriesData, playersData).then((data) => setPlayers(data));
-  }, [players, countriesData, playersData]);
+  }, [countriesData, playersData]);
 
   return (
     <>
@@ -82,9 +82,7 @@ const intToHex = (color: number): string => {
     color = Math.floor(color / 16);
   }
 
-  for (let i = 0; i < 6 - s.length; i++) {
-    s = "0" + s;
-  }
+  s = "0".repeat(6 - s.length) + s;
 
   return "#" + s;
 };

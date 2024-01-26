@@ -19,7 +19,9 @@ function App() {
   const [playersData, setPlayersData] = useState<PlayerData[]>();
 
   useEffect(() => {
-    getCountries().then(setCountriesData);
+    getCountries().then((data) => {
+      setCountriesData(data);
+    });
     getPlayers().then(setPlayersData);
   }, []);
 

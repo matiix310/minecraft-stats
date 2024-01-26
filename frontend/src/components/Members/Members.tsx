@@ -14,7 +14,7 @@ const Members = ({ playersData }: MembersProp) => {
 
   useEffect(() => {
     playersData.forEach((player) => {
-      fetch("/X-Steve.webp").then(async (res) => {
+      fetch(headEndpoint + player.name).then(async (res) => {
         if (res.status !== 200) {
           res = await fetch("/X-Steve.webp");
         }

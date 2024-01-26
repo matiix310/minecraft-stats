@@ -78,7 +78,17 @@ const getConnectedPlayers = async (
 
 const getPlayers = async () => {
   const res = await fetch("/api/users").then((res) => res.json());
-  return res;
+
+  const players: PlayerData[] = res.map((player: any) => {
+    return {
+      name: player.username,
+      countryCode: player.country_code,
+      role: player.role,
+      playtime: 1,
+    };
+  });
+
+  return players;
 };
 
 const getCountryWithUsername = (
@@ -104,7 +114,16 @@ const getCountryWithUsername = (
 
 const getCountries = async () => {
   const res = await fetch("/api/countries").then((res) => res.json());
-  return res;
+
+  const countries: CountryData[] = res.map((country: any) => {
+    return {
+      countryCode: country.country_code,
+      displayName: country.display_name,
+      color: country.color,
+    };
+  });
+
+  return countries;
 };
 
 export type { ActivePlayersData, ConnectedPlayersData, PlayerData, CountryData };
