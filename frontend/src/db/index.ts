@@ -77,8 +77,8 @@ const getConnectedPlayers = async (
 };
 
 const getPlayers = async () => {
-  // TODO
-  return [];
+  const res = await fetch("/api/users").then((res) => res.json());
+  return res;
 };
 
 const getCountryWithUsername = (
@@ -103,21 +103,10 @@ const getCountryWithUsername = (
 };
 
 const getCountries = async () => {
-  // TODO
-  return [];
-};
-
-const createConnection = async (): Promise<void> => {
-  // TODO
-  return;
+  const res = await fetch("/api/countries").then((res) => res.json());
+  return res;
 };
 
 export type { ActivePlayersData, ConnectedPlayersData, PlayerData, CountryData };
 
-export {
-  getActivePlayers,
-  getConnectedPlayers,
-  getPlayers,
-  getCountries,
-  createConnection,
-};
+export { getActivePlayers, getConnectedPlayers, getPlayers, getCountries };

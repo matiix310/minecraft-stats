@@ -25,7 +25,7 @@ const getUsers = async () => {
   }
 };
 
-const getTeams = async () => {
+const getCountries = async () => {
   try {
     const [result] = await pool.query("SELECT * FROM teams");
     return result;
@@ -34,4 +34,4 @@ const getTeams = async () => {
   }
 };
 
-export { getTeams, getUsers };
+export { getCountries, getUsers };

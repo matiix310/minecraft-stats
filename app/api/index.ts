@@ -1,7 +1,7 @@
 import express from "express";
 const router = express.Router();
 
-import { getTeams, getUsers } from "../Database";
+import { getCountries, getUsers } from "../Database";
 
 // middleware that is specific to this router
 router.use((req, res, next) => {
@@ -15,9 +15,9 @@ router.get("/", (req, res) => {
   });
 });
 
-router.get("/teams", async (req, res) => {
-  const teamsData = await getTeams();
-  res.json(teamsData);
+router.get("/countries", async (req, res) => {
+  const countriesData = await getCountries();
+  res.json(countriesData);
 });
 
 router.get("/users", async (req, res) => {
