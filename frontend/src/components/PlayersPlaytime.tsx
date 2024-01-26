@@ -38,7 +38,9 @@ const PlayersPlayTime = ({ playersData }: PlayersPlaytimeData) => {
       datasets: [
         {
           label: "Playtime (Hour)",
-          data: playersData.map((playerData) => playerData.playtime / 60),
+          data: playersData.map(
+            (playerData) => Math.floor((100 * playerData.playtime) / 60) / 100
+          ),
           borderColor: mainColor,
         },
       ],
