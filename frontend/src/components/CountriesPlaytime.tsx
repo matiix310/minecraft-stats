@@ -44,7 +44,7 @@ const CountriesPlayTime = ({ playersData, countriesData }: CountriesPlaytimeData
 
             for (let player of playersData)
               if (player.countryCode === countryData.countryCode)
-                playtime += player.playtime;
+                playtime += player.playtime / 60;
 
             return playtime;
           }),
