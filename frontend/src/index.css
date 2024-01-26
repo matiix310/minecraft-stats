@@ -4,16 +4,16 @@
 :root {
   --text: #08120c;
   --background: #edf7f2;
-  --primary: #a4d6d3;
+  --primary: #6d9cc0;
   --secondary: #c0d3e3;
-  --accent: #427194;
+  --accent: #417093;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
     --text: #edf7f1;
-    --background: #08120d;
-    --primary: #295b58;
+    --background: #151823;
+    --primary: #35657a;
     --secondary: #1c303f;
     --accent: #6b99bd;
   }

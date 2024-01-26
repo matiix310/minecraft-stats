@@ -76,33 +76,9 @@ const getConnectedPlayers = async (
   });
 };
 
-const getPlayers = async (): Promise<PlayerData[]> => {
-  return [
-    {
-      name: "Matiix310",
-      countryCode: "fin",
-      role: "leader",
-      playtime: 5,
-    },
-    {
-      name: "Martb31",
-      countryCode: "fin",
-      role: "member",
-      playtime: 3,
-    },
-    {
-      name: "Flavien",
-      countryCode: "",
-      role: "",
-      playtime: 0.5,
-    },
-    {
-      name: "Ag3nt_Ohm",
-      countryCode: "fin",
-      role: "member",
-      playtime: 1,
-    },
-  ];
+const getPlayers = async () => {
+  // TODO
+  return [];
 };
 
 const getCountryWithUsername = (
@@ -126,22 +102,22 @@ const getCountryWithUsername = (
   }
 };
 
-const getCountries = async (): Promise<CountryData[]> => {
-  await sleep(1000);
+const getCountries = async () => {
+  // TODO
+  return [];
+};
 
-  return [
-    {
-      countryCode: "fin",
-      displayName: "Finlande",
-      color: 255,
-    },
-  ];
+const createConnection = async (): Promise<void> => {
+  // TODO
+  return;
 };
 
 export type { ActivePlayersData, ConnectedPlayersData, PlayerData, CountryData };
 
-export { getActivePlayers, getConnectedPlayers, getPlayers, getCountries };
-
-// Test functions
-
-const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
+export {
+  getActivePlayers,
+  getConnectedPlayers,
+  getPlayers,
+  getCountries,
+  createConnection,
+};

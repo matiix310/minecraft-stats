@@ -1,0 +1,83 @@
+.statusContainer {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  height: 100%;
+  width: 100%;
+}
+
+.statusContainer img {
+  height: 90%;
+  margin-right: 5%;
+  image-rendering: pixelated;
+}
+
+.rightStatusContainer {
+  flex: 1;
+  width: 100%;
+  height: 70%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+
+.labelsContainer {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  height: 30px;
+  --green: #5cffd8;
+  --red: #fe2222;
+}
+
+.labelsContainer > * {
+  font-size: 20px;
+  color: var(--background);
+  background-color: var(--primary);
+  padding: 5px 20px;
+  border-radius: 999px;
+}
+
+.labelsContainer :nth-child(2) {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  height: 100%;
+}
+
+.labelsContainer :nth-child(2).statusOnline {
+  color: var(--green);
+}
+
+.labelsContainer :nth-child(2).statusOffline {
+  color: var(--red);
+}
+
+.labelsContainer :nth-child(2) span {
+  height: 50%;
+  aspect-ratio: 1;
+  border-radius: 999px;
+  margin-right: 10px;
+}
+
+.labelsContainer :nth-child(2).statusOnline span {
+  background-color: var(--green);
+}
+
+.labelsContainer :nth-child(2).statusOffline span {
+  background-color: var(--red);
+}
+
+.serverMotd {
+  font-size: 20px;
+  margin-top: 20px;
+  background: var(--primary);
+  height: 100%;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
