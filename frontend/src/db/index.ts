@@ -1,8 +1,3 @@
-type ActivePlayersData = {
-  day: string;
-  value: number;
-}[];
-
 type ConnectedPlayersData = {
   name: string;
   hearts: number;
@@ -23,33 +18,9 @@ type CountryData = {
   color: number;
 };
 
-const getActivePlayers = async (): Promise<ActivePlayersData> => {
-  return [
-    {
-      day: "01/02",
-      value: 15,
-    },
-    {
-      day: "02/02",
-      value: 10,
-    },
-    {
-      day: "03/02",
-      value: 10,
-    },
-    {
-      day: "04/02",
-      value: 2,
-    },
-    {
-      day: "05/02",
-      value: 12,
-    },
-    {
-      day: "06/02",
-      value: 13,
-    },
-  ];
+type ActivePlayersData = {
+  date: string;
+  playerCount: number;
 };
 
 const getConnectedPlayers = async (
@@ -124,6 +95,61 @@ const getCountries = async () => {
   });
 
   return countries;
+};
+
+const getActivePlayers = async (days: number): Promise<ActivePlayersData[]> => {
+  const dates = [];
+
+  let cDate = Date.now();
+  let date = new Date(cDate);
+
+  for (let i = 0; i < days; i++) {
+    let day = date.getDate().toString();
+    let month = (date.getMonth() + 1).toString();
+    let year = date.getFullYear().toString();
+
+    if (day.length === 1) day = "0" + day;
+    if (month.length === 1) month = "0" + month;
+
+    const formattedDate = `${day}/${month}/${year}`;
+    dates.push(formattedDate);
+
+    cDate -= 86400000;
+    date = new Date(cDate);
+  }
+
+  const res = await fetch(
+    "/api/activeUsers?dates=" + dates.join("-").replaceAll("/", ".")
+  ).then((res) => res.json());
+
+  const activeUsersTemp: ActivePlayersData[] = res.map((day: any) => {
+    return {
+      date: day.date,
+      playerCount: day.player_count,
+    };
+  });
+
+  const activeUsers: ActivePlayersData[] = [];
+
+  for (let date of dates) {
+    // search for the date
+    let dateIndex = 0;
+    while (dateIndex < activeUsersTemp.length && activeUsersTemp[dateIndex].date !== date)
+      dateIndex += 1;
+
+    if (dateIndex === activeUsersTemp.length) {
+      activeUsers.push({
+        date: date,
+        playerCount: 0,
+      });
+    } else {
+      activeUsers.push(activeUsersTemp[dateIndex]);
+    }
+  }
+
+  activeUsers.reverse();
+
+  return activeUsers;
 };
 
 export type { ActivePlayersData, ConnectedPlayersData, PlayerData, CountryData };

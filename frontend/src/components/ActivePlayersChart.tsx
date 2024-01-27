@@ -6,6 +6,8 @@ import { Line } from "react-chartjs-2";
 
 const ActivePlayersChart = () => {
   var style = getComputedStyle(document.body);
+  const mainColor = style.getPropertyValue("--background");
+  Chart.defaults.color = mainColor;
 
   const defaultActivePlayersData: ChartData<"line", (number | Point | null)[], unknown> =
     {
@@ -40,16 +42,13 @@ const ActivePlayersChart = () => {
   };
 
   useEffect(() => {
-    const mainColor = style.getPropertyValue("--background");
-    Chart.defaults.color = mainColor;
-
-    getActivePlayers().then((data): void => {
+    getActivePlayers(7).then((data): void => {
       setActivePlayersData({
-        labels: data.map((d) => d.day),
+        labels: data.map((d) => d.date),
         datasets: [
           {
             label: "Online players",
-            data: data.map((d) => d.value),
+            data: data.map((d) => d.playerCount),
             fill: true,
             backgroundColor: function (context) {
               const chart = context.chart;
@@ -67,7 +66,7 @@ const ActivePlayersChart = () => {
         ],
       });
     });
-  }, [style]);
+  }, [mainColor]);
 
   return <Line data={activePlayersData} options={defaultActivePlayersOptions} />;
 };

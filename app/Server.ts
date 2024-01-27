@@ -1,6 +1,7 @@
 import { Express } from "express";
 import express from "express";
 import path from "path";
+import "dotenv/config";
 import apiRouter from "./api";
 
 export class Server {
