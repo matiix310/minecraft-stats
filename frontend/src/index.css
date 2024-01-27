@@ -9,7 +9,7 @@
   --accent: #417093;
 }
 
-@media (prefers-color-scheme: dark) {
+/* @media (prefers-color-scheme: dark) {
   :root {
     --text: #edf7f1;
     --background: #151823;
@@ -17,7 +17,7 @@
     --secondary: #1c303f;
     --accent: #6b99bd;
   }
-}
+} */
 
 body {
   margin: 0;

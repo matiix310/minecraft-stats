@@ -9,6 +9,7 @@ import {
 
 const fullHeart = require("../../assets/full_heart.png");
 const halfHeart = require("../../assets/half_heart.png");
+const emptyHeart = require("../../assets/empty_heart.png");
 
 type ConnectedPlayersParam = {
   countriesData: CountryData[];
@@ -51,6 +52,9 @@ const getHearts = (player_name: string, heartCount: number) => {
 
   if (heartCount % 2 === 1)
     list.push(<img key={player_name + "_half"} alt="healf heart" src={halfHeart}></img>);
+
+  for (let i = 0; i < Math.floor((20 - heartCount) / 2); i++)
+    list.push(<img key={player_name + "_" + i} alt="full heart" src={emptyHeart}></img>);
 
   return list;
 };

@@ -9,14 +9,48 @@
 
 .headsContainer img {
   height: 100%;
+  opacity: 1;
+  animation: appear 0.5s forwards;
 }
+
+@keyframes appear {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
 .headsContainer img:hover {
   cursor: pointer;
 }
 
-.headsContainer span {
+.headSelector {
   position: absolute;
   background-color: #00000050;
   padding: 0 5px;
   color: #fff;
+}
+
+.loadingPlayer {
+  aspect-ratio: 1;
+  height: calc(100% - 26px);
+  margin: 0px 13px;
+  background-color: #ffffff30;
+  border-radius: 15px;
+  opacity: 1;
+  animation: breath 1.5s infinite;
+}
+
+@keyframes breath {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 1;
+  }
 }

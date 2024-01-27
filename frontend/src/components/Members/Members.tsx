@@ -58,9 +58,18 @@ const Members = ({ playersData }: MembersProp) => {
           alt={player.name}
         ></img>
       ))}
-      <span ref={selectorRef}></span>
+      {missingPlayers(playersData.length - players.length)}
+      <span className="headSelector" ref={selectorRef}></span>
     </div>
   );
+};
+
+const missingPlayers = (count: number) => {
+  const missingPlayer = [];
+  for (let i = 0; i < count; i++) {
+    missingPlayer.push(<span className="loadingPlayer" key={"missingPlayer" + i}></span>);
+  }
+  return missingPlayer;
 };
 
 export default Members;
