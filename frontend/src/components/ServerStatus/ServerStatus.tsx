@@ -16,8 +16,6 @@ const ServerStatus = () => {
         setOnline(true);
         setServerIcon(result.icon);
         setMotd(result.motd.html.replaceAll("\n", "<br/>"));
-        console.log(motd);
-        console.log(result);
       })
       .catch((error: any) => {
         setOnline(false);
