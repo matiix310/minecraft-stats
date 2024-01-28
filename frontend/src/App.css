@@ -1,10 +1,11 @@
 .bentoContainer {
+  --margin-size: 10px;
   position: absolute;
   top: 0;
   left: 0;
-  width: calc(100% - 30px);
-  height: calc(100% - 30px);
-  margin: 15px;
+  width: calc(100% - var(--margin-size) - var(--margin-size));
+  height: calc(100% - var(--margin-size) - var(--margin-size));
+  margin: var(--margin-size);
 
   /* grid config */
   display: grid;
@@ -13,10 +14,10 @@
 }
 
 .bentoContainer > * {
-  width: calc(100% - 75px);
-  height: calc(100% - 45px);
-  margin: 15px;
-  border-radius: 30px;
+  width: calc(100% - 40px - var(--margin-size) - var(--margin-size));
+  height: calc(100% - 10px - var(--margin-size) - var(--margin-size));
+  margin: var(--margin-size);
+  border-radius: 15px;
 }
 
 .bento:nth-child(1) {
@@ -65,6 +66,7 @@
 
   background-color: var(--accent);
 }
+
 .bento:nth-child(1) .title,
 .bento:nth-child(5) .title,
 .bento:nth-child(6) .title {
@@ -85,6 +87,7 @@
   font-weight: 700;
   color: var(--text);
   height: auto;
+  font-size: 1.8vw;
 }
 
 .chartContainer {
