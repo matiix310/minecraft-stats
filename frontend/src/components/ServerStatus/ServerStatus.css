@@ -33,17 +33,14 @@
 }
 
 .labelsContainer > * {
-  font-size: 20px;
+  font-size: 1vw;
   color: var(--background);
   background-color: var(--primary);
-  padding: 5px 20px;
+  padding: 1.5% 5%;
   border-radius: 999px;
-}
-
-.labelsContainer :nth-child(2) {
   display: flex;
-  flex-direction: row;
   align-items: center;
+  flex-direction: row;
   justify-content: space-between;
   height: 100%;
 }
@@ -72,7 +69,7 @@
 }
 
 .serverMotd {
-  font-size: 20px;
+  font-size: 1vw;
   margin-top: 20px;
   background: var(--primary);
   height: 100%;
@@ -80,4 +77,5 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  white-space: break-spaces;
 }
