@@ -27,20 +27,15 @@ const getConnectedPlayers = async (
   countries: CountryData[],
   players: PlayerData[]
 ): Promise<ConnectedPlayersData> => {
-  // TODO replace tempData with an actual server query
-  const tempData: { name: string; hearts: number }[] = [
-    { name: "Matiix310", hearts: 20 },
-    { name: "Martb31", hearts: 15 },
-    { name: "Ag3nt_Ohm", hearts: 18 },
-    { name: "Flavien", hearts: 3 },
-    { name: "Jean-midu31Xx", hearts: 1 },
-  ];
+  const apiRes: { name: string; health: number }[] = await fetch(
+    "/api/onlinePlayers"
+  ).then((res) => res.json());
 
-  return tempData.map((data) => {
+  return apiRes.map((data) => {
     const country = getCountryWithUsername(data.name, countries, players);
     return {
       name: data.name,
-      hearts: data.hearts,
+      hearts: data.health,
       countryDisplayName: country?.displayName,
       color: country?.color,
     };

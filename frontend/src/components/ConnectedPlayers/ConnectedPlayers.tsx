@@ -20,7 +20,7 @@ const ConnectedPlayers = ({ countriesData, playersData }: ConnectedPlayersParam)
   const [players, setPlayers] = useState<ConnectedPlayersData>([]);
 
   useEffect(() => {
-    getConnectedPlayers(countriesData, playersData).then((data) => setPlayers(data));
+    getConnectedPlayers(countriesData, playersData).then(setPlayers);
   }, [countriesData, playersData]);
 
   return (
@@ -36,7 +36,9 @@ const ConnectedPlayers = ({ countriesData, playersData }: ConnectedPlayersParam)
               )}
               <h1>{player.name}</h1>
             </div>
-            <div className="hearts">{getHearts(player.name, player.hearts)}</div>
+            <div className="hearts">
+              {getHearts(player.name, Math.ceil(Math.min(player.hearts, 20)))}
+            </div>
           </div>
         );
       })}

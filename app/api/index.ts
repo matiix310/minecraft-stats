@@ -5,7 +5,7 @@ import { getActiveUsers, getCountries, getUsers } from "../Database";
 
 // middleware that is specific to this router
 router.use((req, res, next) => {
-  console.log("Time: ", Date.now());
+  console.log("[" + Date().toString().split(" (")[0] + "] " + req.url);
   next();
 });
 
@@ -38,6 +38,16 @@ router.get("/activeUsers", async (req, res) => {
   );
 
   res.json(activeUsers);
+});
+
+router.get("/onlinePlayers", async (req, res) => {
+  const apiRes = (await fetch(
+    "http://" + process.env.MINECRAFT_HOST + ":" + process.env.MINECRAFT_API_PORT + "/api"
+  ).then((res) => res.json())) as {
+    onlinePlayers: { name: string; health: number }[];
+  };
+
+  res.json(apiRes.onlinePlayers);
 });
 
 export default router;
