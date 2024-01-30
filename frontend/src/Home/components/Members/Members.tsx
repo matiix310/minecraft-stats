@@ -1,30 +1,35 @@
-import { useEffect, useRef, useState } from "react";
-import { PlayerData } from "../../../db";
+import { useContext, useEffect, useRef } from "react";
 import "./Members.css";
 import { useNavigate } from "react-router-dom";
+import { DbContext } from "../../..";
 
-type MembersProp = {
-  playersData: PlayerData[];
-};
-
-const Members = ({ playersData }: MembersProp) => {
+const Members = () => {
   const headEndpoint = "https://visage.surgeplay.com/head/256/";
 
   const selectorRef = useRef<HTMLSpanElement>(null);
-  const [players, setPlayers] = useState<{ name: string; img: string }[]>([]);
+  const { playersData, playersHead, setPlayersHead } = useContext(DbContext);
   const navigate = useNavigate();
 
   useEffect(() => {
-    playersData.forEach((player) => {
-      fetch(headEndpoint + player.name).then(async (res) => {
-        if (res.status !== 200) {
+    if (playersData && playersHead.length === 0)
+      playersData.forEach(async (player) => {
+        let res;
+        try {
+          res = await fetch(headEndpoint + player.name);
+        } catch (error) {
+          console.error(error);
+          console.log(
+            `Can't load head for player ${player.name}, fallback to steve head.`
+          );
+        }
+        if (!res || res.status !== 200) {
           res = await fetch("/X-Steve-Head.webp");
         }
         const imageBlob = await res.blob();
         const imageObjectURL = URL.createObjectURL(imageBlob);
-        setPlayers((p) => [...p, { name: player.name, img: imageObjectURL }]);
+        setPlayersHead((d) => [...d, { playerName: player.name, image: imageObjectURL }]);
       });
-    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [playersData]);
 
   const handleHover = (e: React.MouseEvent<HTMLImageElement, MouseEvent>) => {
@@ -49,19 +54,23 @@ const Members = ({ playersData }: MembersProp) => {
     selectorRef.current.style.display = "none";
   };
 
+  if (!playersData) {
+    return <></>;
+  }
+
   return (
     <div className="headsContainer">
-      {players.map((player) => (
+      {playersHead.map(({ playerName, image }) => (
         <img
           onMouseEnter={handleHover}
           onMouseLeave={handleLeave}
-          key={player.name}
-          src={player.img}
-          alt={player.name}
-          onClick={(_) => navigate("/players/" + player.name)}
+          key={playerName}
+          src={image}
+          alt={playerName}
+          onClick={(_) => navigate("/players/" + playerName)}
         ></img>
       ))}
-      {missingPlayers(playersData.length - players.length)}
+      {missingPlayers(playersData.length - playersHead.length)}
       <span className="headSelector" ref={selectorRef}></span>
     </div>
   );

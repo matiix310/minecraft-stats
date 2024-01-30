@@ -1,8 +1,8 @@
 import { Chart, ChartArea, ChartData } from "chart.js";
 import { Point } from "chart.js/dist/core/core.controller";
-import { useEffect, useState } from "react";
-import { getActivePlayers } from "../../db";
+import { useContext, useEffect, useState } from "react";
 import { Line } from "react-chartjs-2";
+import { DbContext } from "../..";
 
 const ActivePlayersChart = () => {
   var style = getComputedStyle(document.body);
@@ -15,6 +15,7 @@ const ActivePlayersChart = () => {
       datasets: [],
     };
   const [activePlayersData, setActivePlayersData] = useState(defaultActivePlayersData);
+  const data = useContext(DbContext).activePlayersData;
 
   const defaultActivePlayersOptions: any = {
     animation: false,
@@ -42,7 +43,7 @@ const ActivePlayersChart = () => {
   };
 
   useEffect(() => {
-    getActivePlayers(7).then((data): void => {
+    if (data) {
       setActivePlayersData({
         labels: data.map((d) => d.date),
         datasets: [
@@ -65,8 +66,8 @@ const ActivePlayersChart = () => {
           },
         ],
       });
-    });
-  }, [mainColor]);
+    }
+  }, [mainColor, data]);
 
   return <Line data={activePlayersData} options={defaultActivePlayersOptions} />;
 };

@@ -1,47 +1,34 @@
 import "./ConnectedPlayers.css";
-import { useEffect, useState } from "react";
-import {
-  ConnectedPlayersData,
-  CountryData,
-  PlayerData,
-  getConnectedPlayers,
-} from "../../../db";
+import { useContext } from "react";
 
 import fullHeart from "@/assets/full_heart.png";
 import halfHeart from "@/assets/half_heart.png";
 import emptyHeart from "@/assets/empty_heart.png";
+import { DbContext } from "../../..";
 
-type ConnectedPlayersParam = {
-  countriesData: CountryData[];
-  playersData: PlayerData[];
-};
-
-const ConnectedPlayers = ({ countriesData, playersData }: ConnectedPlayersParam) => {
-  const [players, setPlayers] = useState<ConnectedPlayersData>([]);
-
-  useEffect(() => {
-    getConnectedPlayers(countriesData, playersData).then(setPlayers);
-  }, [countriesData, playersData]);
+const ConnectedPlayers = () => {
+  const players = useContext(DbContext).connectedPlayersData;
 
   return (
     <>
-      {players.map((player) => {
-        return (
-          <div key={player.name} className="playerTabContainer">
-            <div className="playerNameContainer">
-              {player.countryDisplayName && (
-                <h1 className="bold" style={{ color: intToHex(player.color!) }}>
-                  [{player.countryDisplayName}]
-                </h1>
-              )}
-              <h1>{player.name}</h1>
+      {players &&
+        players.map((player) => {
+          return (
+            <div key={player.name} className="playerTabContainer">
+              <div className="playerNameContainer">
+                {player.countryDisplayName && (
+                  <h1 className="bold" style={{ color: intToHex(player.color!) }}>
+                    [{player.countryDisplayName}]
+                  </h1>
+                )}
+                <h1>{player.name}</h1>
+              </div>
+              <div className="hearts">
+                {getHearts(player.name, Math.ceil(Math.min(player.hearts, 20)))}
+              </div>
             </div>
-            <div className="hearts">
-              {getHearts(player.name, Math.ceil(Math.min(player.hearts, 20)))}
-            </div>
-          </div>
-        );
-      })}
+          );
+        })}
     </>
   );
 };

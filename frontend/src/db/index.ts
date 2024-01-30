@@ -1,9 +1,9 @@
-type ConnectedPlayersData = {
+type ConnectedPlayerData = {
   name: string;
   hearts: number;
   countryDisplayName: string | undefined;
   color: number | undefined;
-}[];
+};
 
 type PlayerData = {
   name: string;
@@ -26,7 +26,7 @@ type ActivePlayersData = {
 const getConnectedPlayers = async (
   countries: CountryData[],
   players: PlayerData[]
-): Promise<ConnectedPlayersData> => {
+): Promise<ConnectedPlayerData[]> => {
   const apiRes: { name: string; health: number }[] = await fetch(
     "/api/onlinePlayers"
   ).then((res) => res.json());
@@ -147,6 +147,6 @@ const getActivePlayers = async (days: number): Promise<ActivePlayersData[]> => {
   return activeUsers;
 };
 
-export type { ActivePlayersData, ConnectedPlayersData, PlayerData, CountryData };
+export type { ActivePlayersData, ConnectedPlayerData, PlayerData, CountryData };
 
 export { getActivePlayers, getConnectedPlayers, getPlayers, getCountries };
