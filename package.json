@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "start": "pnpx ts-node index.ts",
-    "build": "pnpx tsc",
-    "start:prod": "pnpm i && rm -rf ./build/* && cd frontend && pnpm i && pnpm build && cd .. && pnpm start",
+    "build": "pnpm exec tsc",
+    "start:prod": "pnpm i && rm -rf ./build/* && cd frontend && pnpm i && pnpm build && cd .. && pnpm build && node ./build/index.js",
     "start:dev-front": "concurrently \"pnpm start\" \"rm -rf ./build/* && cd frontend && pnpm build:dev\""
   },
   "keywords": [],
