@@ -2,7 +2,7 @@ import { Chart, ChartData } from "chart.js";
 import { Point } from "chart.js/dist/core/core.controller";
 import { useEffect, useState } from "react";
 import { Pie } from "react-chartjs-2";
-import { CountryData, PlayerData } from "../db";
+import { CountryData, PlayerData } from "../../db";
 
 type CountriesPlaytimeData = {
   playersData: PlayerData[];

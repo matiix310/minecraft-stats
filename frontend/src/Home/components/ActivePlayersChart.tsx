@@ -1,7 +1,7 @@
 import { Chart, ChartArea, ChartData } from "chart.js";
 import { Point } from "chart.js/dist/core/core.controller";
 import { useEffect, useState } from "react";
-import { getActivePlayers } from "../db";
+import { getActivePlayers } from "../../db";
 import { Line } from "react-chartjs-2";
 
 const ActivePlayersChart = () => {

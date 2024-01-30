@@ -1,0 +1,5 @@
+{
+  "events": {
+    "exit": "notify-send \"Build Finished\" -t 2000"
+  }
+}

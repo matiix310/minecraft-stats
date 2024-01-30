@@ -10,13 +10,16 @@ export class Server {
   constructor(app: Express) {
     this.app = app;
 
+    // api router
     this.app.use("/api", apiRouter);
 
+    // expose static assets
     this.app.use(express.static(path.resolve("./") + "/build/frontend"));
 
-    // this.app.get("*", (req: Request, res: Response): void => {
-    //   res.sendFile(path.resolve("./") + "/build/frontend/index.html");
-    // });
+    // redirect everything else to the react router
+    this.app.get("*", (req, res): void => {
+      res.sendFile(path.resolve("./") + "/build/frontend/index.html");
+    });
   }
 
   public start(port: number): void {

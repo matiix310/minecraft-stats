@@ -1,7 +1,7 @@
 import { Chart, ChartData } from "chart.js";
 import { Point } from "chart.js/dist/core/core.controller";
 import { useEffect, useState } from "react";
-import { PlayerData } from "../db";
+import { PlayerData } from "../../db";
 import { Pie } from "react-chartjs-2";
 
 type PlayersPlaytimeData = {

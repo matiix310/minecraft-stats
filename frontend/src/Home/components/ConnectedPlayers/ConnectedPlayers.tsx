@@ -5,11 +5,11 @@ import {
   CountryData,
   PlayerData,
   getConnectedPlayers,
-} from "../../db";
+} from "../../../db";
 
-const fullHeart = require("../../assets/full_heart.png");
-const halfHeart = require("../../assets/half_heart.png");
-const emptyHeart = require("../../assets/empty_heart.png");
+import fullHeart from "@/assets/full_heart.png";
+import halfHeart from "@/assets/half_heart.png";
+import emptyHeart from "@/assets/empty_heart.png";
 
 type ConnectedPlayersParam = {
   countriesData: CountryData[];

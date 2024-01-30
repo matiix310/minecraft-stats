@@ -1,10 +1,10 @@
-import "./App.css";
+import "./index.css";
 import { CategoryScale } from "chart.js";
 import Chart from "chart.js/auto";
 import ActivePlayersChart from "./components/ActivePlayersChart";
 import ConnectedPlayers from "./components/ConnectedPlayers/ConnectedPlayers";
 import PlayersPlayTime from "./components/PlayersPlaytime";
-import { CountryData, PlayerData, getCountries, getPlayers } from "./db";
+import { CountryData, PlayerData, getCountries, getPlayers } from "../db";
 import { useEffect, useState } from "react";
 import CountriesPlayTime from "./components/CountriesPlaytime";
 import Members from "./components/Members/Members";
@@ -14,7 +14,7 @@ Chart.register(CategoryScale);
 Chart.defaults.color = "#ffffff";
 Chart.defaults.datasets.pie.hoverBackgroundColor = "#00000040";
 
-function App() {
+function Home() {
   const [countriesData, setCountriesData] = useState<CountryData[]>();
   const [playersData, setPlayersData] = useState<PlayerData[]>();
 
@@ -26,7 +26,7 @@ function App() {
   }, []);
 
   return (
-    <div className="App">
+    <div className="Home">
       <div className="bentoContainer">
         {/* Active players */}
         <div className="bento">
@@ -79,4 +79,4 @@ function App() {
   );
 }
 
-export default App;
+export default Home;

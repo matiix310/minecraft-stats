@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
-import { PlayerData } from "../../db";
+import { PlayerData } from "../../../db";
 import "./Members.css";
+import { useNavigate } from "react-router-dom";
 
 type MembersProp = {
   playersData: PlayerData[];
@@ -11,12 +12,13 @@ const Members = ({ playersData }: MembersProp) => {
 
   const selectorRef = useRef<HTMLSpanElement>(null);
   const [players, setPlayers] = useState<{ name: string; img: string }[]>([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     playersData.forEach((player) => {
       fetch(headEndpoint + player.name).then(async (res) => {
         if (res.status !== 200) {
-          res = await fetch("/X-Steve.webp");
+          res = await fetch("/X-Steve-Head.webp");
         }
         const imageBlob = await res.blob();
         const imageObjectURL = URL.createObjectURL(imageBlob);
@@ -56,6 +58,7 @@ const Members = ({ playersData }: MembersProp) => {
           key={player.name}
           src={player.img}
           alt={player.name}
+          onClick={(_) => navigate("/players/" + player.name)}
         ></img>
       ))}
       {missingPlayers(playersData.length - players.length)}
