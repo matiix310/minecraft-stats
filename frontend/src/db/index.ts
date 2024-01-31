@@ -23,6 +23,17 @@ type ActivePlayersData = {
   playerCount: number;
 };
 
+type Statistic = {
+  name: string;
+  value: number;
+  rank: number;
+};
+
+type Achievement = {
+  name: string;
+  date: number;
+};
+
 const getConnectedPlayers = async (
   countries: CountryData[],
   players: PlayerData[]
@@ -147,6 +158,38 @@ const getActivePlayers = async (days: number): Promise<ActivePlayersData[]> => {
   return activeUsers;
 };
 
-export type { ActivePlayersData, ConnectedPlayerData, PlayerData, CountryData };
+const getStatistics = async (username: string): Promise<Statistic[]> => {
+  const statistics: Statistic[] = await fetch(
+    "/api/statistics?username=" + username
+  ).then((res) => res.json());
 
-export { getActivePlayers, getConnectedPlayers, getPlayers, getCountries };
+  statistics.sort((a, b) => a.rank - b.rank);
+  return statistics;
+};
+
+const getAchievements = async (username: string): Promise<Achievement[]> => {
+  const achievements: Achievement[] = await fetch(
+    "/api/achievements?username=" + username
+  ).then((res) => res.json());
+
+  achievements.sort((a, b) => b.date - a.date);
+  return achievements;
+};
+
+export type {
+  ActivePlayersData,
+  ConnectedPlayerData,
+  PlayerData,
+  CountryData,
+  Statistic,
+  Achievement,
+};
+
+export {
+  getActivePlayers,
+  getConnectedPlayers,
+  getPlayers,
+  getCountries,
+  getStatistics,
+  getAchievements,
+};

@@ -33,7 +33,7 @@ export class Server {
         cert: cert,
       };
       var server = https.createServer(options, this.app);
-      server.listen(443, () => console.log(`Server listening on port ${port}!`));
+      server.listen(443, () => console.log(`Server listening on port 443!`));
     } catch (e) {
       console.warn("Running without SSL certificate!");
       this.app.listen(port, () => console.log(`Server listening on port ${port}!`));

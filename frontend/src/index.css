@@ -66,4 +66,5 @@ body {
   color: var(--text);
   height: auto;
   font-size: 1.8vw;
+  margin-top: 15px;
 }

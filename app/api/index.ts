@@ -11,7 +11,7 @@ router.use((req, res, next) => {
 
 router.get("/", (req, res) => {
   res.json({
-    routes: ["/teams", "/users"],
+    routes: ["/teams", "/users", "/activeUsers", "statistics"],
   });
 });
 
@@ -48,6 +48,107 @@ router.get("/onlinePlayers", async (req, res) => {
   };
 
   res.json(apiRes.onlinePlayers);
+});
+
+router.get("/statistics", async (req, res) => {
+  const username = req.query.username;
+
+  if (!username) {
+    res.json([]);
+    return;
+  }
+
+  // const apiRes = (await fetch(
+  //   "http://" +
+  //     process.env.MINECRAFT_HOST +
+  //     ":" +
+  //     process.env.MINECRAFT_API_PORT +
+  //     "/api/statistics/" +
+  //     username
+  // ).then((res) => res.json())) as {
+  //   statistics: {
+  //     name: string;
+  //     value: number;
+  //     rank: number;
+  //   }[];
+  // };
+
+  const statistics: {
+    name: string;
+    value: number;
+    rank: number;
+  }[] = [
+    {
+      name: "Block mined",
+      value: 42,
+      rank: 5,
+    },
+    {
+      name: "Block mined",
+      value: 10000,
+      rank: 2,
+    },
+    {
+      name: "Block mined",
+      value: 999999,
+      rank: 1,
+    },
+    {
+      name: "Block mined",
+      value: 5000,
+      rank: 3,
+    },
+  ];
+
+  res.json(statistics);
+});
+
+router.get("/achievements", async (req, res) => {
+  const username = req.query.username;
+
+  if (!username) {
+    res.json([]);
+    return;
+  }
+
+  // const apiRes = (await fetch(
+  //   "http://" +
+  //     process.env.MINECRAFT_HOST +
+  //     ":" +
+  //     process.env.MINECRAFT_API_PORT +
+  //     "/api/achievements/" +
+  //     username
+  // ).then((res) => res.json())) as {
+  //   statistics: {
+  //     name: string;
+  //     value: number;
+  //     rank: number;
+  //   }[];
+  // };
+
+  const achievements: {
+    name: string;
+    date: number;
+  }[] = [
+    {
+      name: "Join the server",
+      date: 1706139853,
+    },
+    {
+      name: "Diamonds!",
+      date: 1706226253,
+    },
+    {
+      name: "We need to go deeper!",
+      date: 1706571853,
+    },
+    {
+      name: "Ice bucket challenge!",
+      date: 1706744661,
+    },
+  ];
+
+  res.json(achievements);
 });
 
 export default router;
