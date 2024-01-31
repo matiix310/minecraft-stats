@@ -1,6 +1,7 @@
-import { Express } from "express";
-import express from "express";
+import express, { Express } from "express";
 import path from "path";
+import https from "https";
+import fs from "fs";
 import "dotenv/config";
 import apiRouter from "./api";
 
@@ -23,6 +24,19 @@ export class Server {
   }
 
   public start(port: number): void {
-    this.app.listen(port, () => console.log(`Server listening on port ${port}!`));
+    // setup the ssl certificate
+    try {
+      var key = fs.readFileSync(path.resolve("./") + "/sslcert/server.key");
+      var cert = fs.readFileSync(path.resolve("./") + "/sslcert/server.crt");
+      var options = {
+        key: key,
+        cert: cert,
+      };
+      var server = https.createServer(options, this.app);
+      server.listen(port, () => console.log(`Server listening on port ${port}!`));
+    } catch (e) {
+      console.warn("Running without SSL certificate!");
+      this.app.listen(port, () => console.log(`Server listening on port ${port}!`));
+    }
   }
 }
