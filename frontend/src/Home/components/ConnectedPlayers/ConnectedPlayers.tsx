@@ -5,6 +5,7 @@ import fullHeart from "@/assets/full_heart.png";
 import halfHeart from "@/assets/half_heart.png";
 import emptyHeart from "@/assets/empty_heart.png";
 import { DbContext } from "../../..";
+import { getColorFromInt } from "../../../utils/color";
 
 const ConnectedPlayers = () => {
   const players = useContext(DbContext).connectedPlayersData;
@@ -17,7 +18,7 @@ const ConnectedPlayers = () => {
             <div key={player.name} className="playerTabContainer">
               <div className="playerNameContainer">
                 {player.countryDisplayName && (
-                  <h1 className="bold" style={{ color: intToHex(player.color!) }}>
+                  <h1 className="bold" style={{ color: getColorFromInt(player.color!) }}>
                     [{player.countryDisplayName}]
                   </h1>
                 )}
@@ -46,38 +47,6 @@ const getHearts = (player_name: string, heartCount: number) => {
     list.push(<img key={player_name + "_" + i} alt="full heart" src={emptyHeart}></img>);
 
   return list;
-};
-
-const hexTable = [
-  "0",
-  "1",
-  "2",
-  "3",
-  "4",
-  "5",
-  "6",
-  "7",
-  "8",
-  "9",
-  "a",
-  "b",
-  "c",
-  "d",
-  "e",
-  "f",
-];
-
-const intToHex = (color: number): string => {
-  let s = "";
-
-  while (color !== 0) {
-    s = hexTable[color % 16] + s;
-    color = Math.floor(color / 16);
-  }
-
-  s = "0".repeat(6 - s.length) + s;
-
-  return "#" + s;
 };
 
 export default ConnectedPlayers;

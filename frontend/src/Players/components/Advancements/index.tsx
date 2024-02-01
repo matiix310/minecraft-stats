@@ -59,7 +59,8 @@ const Advancements = ({ username }: AdvancementsProps) => {
         return (
           <div className={styles.achievementContainer}>
             <div className={styles.nameContainer}>
-              <h1 className={styles.name}>{advancement.name}</h1>
+              <h1 className={[styles.name, "bold"].join(" ")}>{advancement.name}</h1>
+              <h1 className={styles.description}>{advancement.description}</h1>
             </div>
             <div className={styles.frame}>
               <img

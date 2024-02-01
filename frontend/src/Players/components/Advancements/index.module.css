@@ -14,24 +14,51 @@
   position: absolute;
   background-color: var(--accent);
   top: 50%;
-  left: 65px;
-  width: calc(100% - 6vw - 65px);
+  left: 70px;
+  width: calc(100% - 6vw - 70px);
   height: 6vw;
   border-radius: var(--bento-border-radius);
-  align-items: center;
-  justify-content: center;
   transform: translateY(-50%);
-  display: flex;
-  align-items: center;
-  justify-content: center;
   padding-right: calc(6vw - 3px);
+  overflow: hidden;
+}
+
+.nameContainer:hover {
+  cursor: pointer;
+}
+
+.description {
+  position: absolute;
+  top: 50%;
+  left: 100%;
+  width: calc(100% - 5vw);
+  transform: translateY(-50%);
+  transition: all 0.3s ease-in-out;
+
+  color: var(--background);
+  font-size: 1vw;
+  text-align: center;
+}
+
+.nameContainer:hover .description {
+  left: 0;
 }
 
 .name {
-  text-align: center;
-  width: 90%;
+  position: absolute;
+  width: calc(100% - 5vw);
+  top: 50%;
+  left: 0;
+  transform: translate(0, -50%);
+  transition: all 0.3s ease-in-out;
+
   color: var(--background);
   font-size: 1.5vw;
+  text-align: center;
+}
+
+.nameContainer:hover .name {
+  left: -100%;
 }
 
 .dateContainer {
@@ -61,7 +88,7 @@
   left: 0;
   top: 50%;
   transform-origin: 0 50%;
-  transform: translateY(-50%) scale(1.1);
+  transform: translateY(-50%) scale(1.2);
 }
 
 .frameIcon {

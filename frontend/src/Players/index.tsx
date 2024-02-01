@@ -3,6 +3,7 @@ import "./index.css";
 import PlayerBody from "./components/PlayerBody";
 import Statistics from "./components/Statistics";
 import Advancements from "./components/Advancements";
+import CountryInfo from "./components/CountryInfo";
 
 const Player = () => {
   const params = useParams();
@@ -25,7 +26,9 @@ const Player = () => {
             alt="Dashboard"
           />
         </div>
-        <div className="bento"></div>
+        <div className="bento">
+          <CountryInfo username={username} />
+        </div>
         <div className="bento">
           <h1 className="title">Statistics</h1>
           <Statistics username={username} />

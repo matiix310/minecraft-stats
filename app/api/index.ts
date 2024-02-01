@@ -138,6 +138,10 @@ router.get("/advancements", async (req, res) => {
       name: "nether:nether/create_full_beacon",
       date: 0,
     },
+    {
+      name: "adventure:adventure/voluntary_exile",
+      date: 0,
+    },
   ];
 
   res.json(advancements);
