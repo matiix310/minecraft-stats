@@ -103,7 +103,7 @@ router.get("/statistics", async (req, res) => {
   res.json(statistics);
 });
 
-router.get("/achievements", async (req, res) => {
+router.get("/advancements", async (req, res) => {
   const username = req.query.username;
 
   if (!username) {
@@ -116,7 +116,7 @@ router.get("/achievements", async (req, res) => {
   //     process.env.MINECRAFT_HOST +
   //     ":" +
   //     process.env.MINECRAFT_API_PORT +
-  //     "/api/achievements/" +
+  //     "/api/advancements/" +
   //     username
   // ).then((res) => res.json())) as {
   //   statistics: {
@@ -126,29 +126,21 @@ router.get("/achievements", async (req, res) => {
   //   }[];
   // };
 
-  const achievements: {
+  const advancements: {
     name: string;
     date: number;
   }[] = [
     {
-      name: "Join the server",
+      name: "nether:nether/netherite_armor",
       date: 1706139853,
     },
     {
-      name: "Diamonds!",
-      date: 1706226253,
-    },
-    {
-      name: "We need to go deeper!",
-      date: 1706571853,
-    },
-    {
-      name: "Ice bucket challenge!",
-      date: 1706744661,
+      name: "nether:nether/create_full_beacon",
+      date: 0,
     },
   ];
 
-  res.json(achievements);
+  res.json(advancements);
 });
 
 export default router;

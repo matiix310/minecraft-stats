@@ -2,7 +2,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import "./index.css";
 import PlayerBody from "./components/PlayerBody";
 import Statistics from "./components/Statistics";
-import Achievements from "./components/Achievement";
+import Advancements from "./components/Advancements";
 
 const Player = () => {
   const params = useParams();
@@ -32,7 +32,7 @@ const Player = () => {
         </div>
         <div className="bento">
           <h1 className="title">Achievements</h1>
-          <Achievements username={username} />
+          <Advancements username={username} />
         </div>
         <div className="bento">
           <PlayerBody playerName={username} />

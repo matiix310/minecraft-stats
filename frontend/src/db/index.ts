@@ -29,7 +29,7 @@ type Statistic = {
   rank: number;
 };
 
-type Achievement = {
+type Advancement = {
   name: string;
   date: number;
 };
@@ -167,13 +167,13 @@ const getStatistics = async (username: string): Promise<Statistic[]> => {
   return statistics;
 };
 
-const getAchievements = async (username: string): Promise<Achievement[]> => {
-  const achievements: Achievement[] = await fetch(
-    "/api/achievements?username=" + username
+const getAdvancements = async (username: string): Promise<Advancement[]> => {
+  const advancements: Advancement[] = await fetch(
+    "/api/advancements?username=" + username
   ).then((res) => res.json());
 
-  achievements.sort((a, b) => b.date - a.date);
-  return achievements;
+  advancements.sort((a, b) => b.date - a.date);
+  return advancements;
 };
 
 export type {
@@ -182,7 +182,7 @@ export type {
   PlayerData,
   CountryData,
   Statistic,
-  Achievement,
+  Advancement,
 };
 
 export {
@@ -191,5 +191,5 @@ export {
   getPlayers,
   getCountries,
   getStatistics,
-  getAchievements,
+  getAdvancements,
 };
