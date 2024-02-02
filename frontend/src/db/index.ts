@@ -24,16 +24,37 @@ type ActivePlayersData = {
   playerCount: number;
 };
 
-type Statistic = {
-  name: string;
-  value: number;
-  rank: number;
+type RowStatistics = {
+  [stat: string]: {
+    [subStat: string]: {
+      value: number;
+      rank: number;
+    };
+  };
+};
+
+type Statistics = {
+  [stat: string]: {
+    name: string;
+    value: number;
+    rank: number;
+  }[];
 };
 
 type Advancement = {
   uuid: string;
   id: string;
   date: number;
+};
+
+type FormatedAdvancement = {
+  id: string;
+  date: number;
+  name: string;
+  description: string;
+  frame: string;
+  x: number;
+  y: number;
 };
 
 const getConnectedPlayers = async (
@@ -161,12 +182,25 @@ const getActivePlayers = async (days: number): Promise<ActivePlayersData[]> => {
   return activeUsers;
 };
 
-const getStatistics = async (username: string): Promise<Statistic[]> => {
-  const statistics: Statistic[] = await fetch(
-    "/api/statistics?username=" + username
-  ).then((res) => res.json());
+const getStatistics = async (uuid: string): Promise<Statistics> => {
+  const rowStatistics: RowStatistics = await fetch("/api/statistics?uuid=" + uuid).then(
+    (res) => res.json()
+  );
 
-  statistics.sort((a, b) => a.rank - b.rank);
+  const statistics: Statistics = {};
+
+  for (let stat in rowStatistics) {
+    statistics[stat] = Object.keys(rowStatistics[stat])
+      .map((subStat) => {
+        return {
+          name: subStat,
+          rank: rowStatistics[stat][subStat].rank,
+          value: rowStatistics[stat][subStat].value,
+        };
+      })
+      .sort((a, b) => a.rank - b.rank);
+  }
+
   return statistics;
 };
 
@@ -184,8 +218,9 @@ export type {
   ConnectedPlayerData,
   PlayerData,
   CountryData,
-  Statistic,
+  Statistics,
   Advancement,
+  FormatedAdvancement,
 };
 
 export {

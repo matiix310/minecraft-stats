@@ -4,9 +4,9 @@
   "description": "A simple dashboard for minecraft servers.",
   "main": "index.js",
   "scripts": {
-    "start": "pnpx ts-node index.ts",
+    "start": "node build/index.js",
     "build": "pnpm exec tsc",
-    "start:prod": "pnpm i && rm -rf ./build/* && cd frontend && pnpm i && pnpm build && cd .. && pnpm build && node ./build/index.js",
+    "start:prod": "pnpm i && rm -rf ./build/* && cd frontend && pnpm i && pnpm build && cd .. && pnpm build && pnpm start",
     "start:dev-front": "concurrently \"pnpm start\" \"rm -rf ./build/* && cd frontend && pnpm build:dev\""
   },
   "keywords": [],

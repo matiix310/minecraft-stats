@@ -25,3 +25,6 @@ yarn-error.log*
 
 # sslcert
 /sslcert
+
+# dev
+/app/api/players-stats

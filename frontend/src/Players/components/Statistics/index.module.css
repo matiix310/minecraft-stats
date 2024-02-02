@@ -1,8 +1,15 @@
 .statsContainer {
   width: 100%;
-  height: 100%;
-  overflow-y: auto;
+  height: calc(85% - 40px);
   margin-top: 15px;
+}
+
+.statsSubContainer {
+  width: 100%;
+  height: 100%;
+  overflow-x: hidden;
+  overflow-x: auto;
+  padding-right: 20px;
 }
 
 .statContainer {
@@ -10,14 +17,26 @@
   align-items: center;
   justify-content: space-between;
   flex-direction: row;
-  width: 100%;
+  width: 90%;
+  margin-left: 10%;
   color: #fff;
+  opacity: 0;
+  animation: listItemAppear 0.3s forwards;
+}
+
+@keyframes listItemAppear {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 .statContainer > h1 {
   flex: 2;
   width: 100%;
-  font-size: 2vw;
+  font-size: 1.5vw;
 }
 
 .subStatContainer {
@@ -35,5 +54,53 @@
 }
 
 .subStatContainer > h1:nth-child(2) {
-  font-size: 2vw;
+  font-size: 1.5vw;
+}
+
+.parentStatContainer {
+  color: var(--background);
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: row;
+  margin-top: 1vh;
+}
+
+.parentStatContainer:hover {
+  cursor: pointer;
+}
+
+.parentStatContainer > span {
+  font-size: 1.5vw;
+  width: fit-content;
+  transition: all 0.1s ease-in-out;
+}
+
+.parentStatContainer:hover > span {
+  translate: 0.5vw;
+}
+
+.parentSubStatContainer {
+  font-size: 0.7vw;
+  width: 100%;
+  margin-left: 1vw;
+}
+
+.searchInputContainer {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.searchInput {
+  all: unset;
+  background-color: var(--secondary);
+  border-radius: 999px;
+  width: 80%;
+  font-size: 1vw;
+  margin: 1vh 0;
+  color: var(--text);
+  padding: 0.7vw 1.4vw;
 }

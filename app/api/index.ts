@@ -1,4 +1,7 @@
 import express from "express";
+import fs from "fs";
+import path from "path";
+
 const router = express.Router();
 
 import { getActiveUsers, getAdvancements, getCountries, getUsers } from "../Database";
@@ -59,56 +62,92 @@ router.get("/onlinePlayers", async (req, res) => {
 });
 
 router.get("/statistics", async (req, res) => {
-  const username = req.query.username;
+  const uuid = req.query.uuid;
 
-  if (!username) {
+  const statsPath = process.env.MINECRAFT_PATH;
+  const playerStatsPath = statsPath + uuid + ".json";
+  const ranksPath = path.resolve("./") + "/build/app/api/players-rank.json";
+
+  if (!uuid || uuid.length != 36 || !fs.existsSync(playerStatsPath)) {
     res.json([]);
     return;
   }
 
-  // const apiRes = (await fetch(
-  //   "http://" +
-  //     process.env.MINECRAFT_HOST +
-  //     ":" +
-  //     process.env.MINECRAFT_API_PORT +
-  //     "/api/statistics/" +
-  //     username
-  // ).then((res) => res.json())) as {
-  //   statistics: {
-  //     name: string;
-  //     value: number;
-  //     rank: number;
-  //   }[];
-  // };
+  type Ranks = {
+    [stat: string]: { [subStat: string]: { uuids: string[]; lastUpdate: number } };
+  };
+  type Statistics = { [stat: string]: { [subStat: string]: number } };
+  type StatisticsWithRank = {
+    [stat: string]: { [subStat: string]: { value: number; rank: number } };
+  };
 
-  const statistics: {
-    name: string;
-    value: number;
-    rank: number;
-  }[] = [
-    {
-      name: "Block mined",
-      value: 42,
-      rank: 5,
-    },
-    {
-      name: "Block mined",
-      value: 10000,
-      rank: 2,
-    },
-    {
-      name: "Block mined",
-      value: 999999,
-      rank: 1,
-    },
-    {
-      name: "Block mined",
-      value: 5000,
-      rank: 3,
-    },
-  ];
+  const playerStats: {
+    stats: Statistics;
+    DataVersion: number;
+  } = JSON.parse(fs.readFileSync(playerStatsPath, "utf-8"));
 
-  res.json(statistics);
+  const othersStats: Map<string, Statistics> = new Map();
+
+  for (let file of fs.readdirSync(statsPath)) {
+    const playerStatsPath = statsPath + file;
+    const playerUUID = file.substring(0, 36);
+    othersStats.set(
+      playerUUID,
+      JSON.parse(fs.readFileSync(playerStatsPath, "utf-8")).stats
+    );
+  }
+
+  const ranks: Ranks = JSON.parse(fs.readFileSync(ranksPath, "utf-8"));
+
+  const playerStatsWithRank: StatisticsWithRank = {};
+  let edited = false;
+
+  for (let stat in playerStats.stats) {
+    playerStatsWithRank[stat] = {};
+    for (let subStat in playerStats.stats[stat]) {
+      if (playerStats.stats[stat][subStat] === 0) continue;
+      if (
+        !ranks[stat] ||
+        !ranks[stat][subStat] ||
+        !ranks[stat][subStat].uuids.includes(uuid.toString()) ||
+        ranks[stat][subStat].lastUpdate - Date.now() / 1000 > 3600 // 1h
+      ) {
+        // refresh the rank
+        edited = true;
+        const statRanks = Array.from(othersStats.keys())
+          .filter(
+            (uuid) => othersStats.get(uuid)[stat] && othersStats.get(uuid)[stat][subStat]
+          )
+          .sort(
+            (a, b) =>
+              othersStats.get(b)[stat][subStat] - othersStats.get(a)[stat][subStat]
+          );
+        // statRanks.push(
+        //   ...Array.from(othersStats.keys()).filter(
+        //     (uuid) =>
+        //       !othersStats.get(uuid)[stat] || !othersStats.get(uuid)[stat][subStat]
+        //   )
+        // );
+        if (!ranks[stat]) ranks[stat] = {};
+
+        ranks[stat][subStat] = {
+          lastUpdate: Date.now(),
+          uuids: statRanks,
+        };
+      }
+
+      playerStatsWithRank[stat][subStat] = {
+        value: playerStats.stats[stat][subStat],
+        rank: ranks[stat][subStat].uuids.indexOf(uuid.toString()) + 1,
+      };
+    }
+  }
+
+  if (edited) {
+    fs.writeFileSync(ranksPath, JSON.stringify(ranks));
+  }
+
+  res.json(playerStatsWithRank);
 });
 
 router.get("/advancements", async (req, res) => {

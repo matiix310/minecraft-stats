@@ -43,7 +43,7 @@ const Player = () => {
         </div>
         <div className="bento">
           <h1 className="title">Statistics</h1>
-          <Statistics username={username} />
+          {uuid && <Statistics uuid={uuid} />}
         </div>
         <div className="bento">
           <h1 className="title">Advancements</h1>

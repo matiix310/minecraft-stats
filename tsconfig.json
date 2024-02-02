@@ -8,8 +8,9 @@
     "esModuleInterop": true,
     "lib": ["ES2021"],
     "allowJs": true,
+    "resolveJsonModule": true,
     "forceConsistentCasingInFileNames": true
   },
-  "include": ["**.ts"],
+  "include": ["**.ts", "./app/api/players-stats/*.json", "./app/api/players-rank.json"],
   "exclude": ["./frontend"]
 }

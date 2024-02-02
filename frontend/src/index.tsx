@@ -11,6 +11,7 @@ import Home from "./Home";
 import Player from "./Players";
 import {
   ActivePlayersData,
+  FormatedAdvancement,
   ConnectedPlayerData,
   CountryData,
   PlayerData,
@@ -18,6 +19,7 @@ import {
   getConnectedPlayers,
   getCountries,
   getPlayers,
+  Statistics,
 } from "./db";
 
 type ServerQueryData = {
@@ -48,6 +50,24 @@ export const DbContext = React.createContext<{
   setServerQueryData: Dispatch<ServerQueryData>;
   playersHead: playerHead[];
   setPlayersHead: React.Dispatch<React.SetStateAction<playerHead[]>>;
+  advancements: { [uuid: string]: FormatedAdvancement[] };
+  setAdvancements: React.Dispatch<
+    React.SetStateAction<{
+      [uuid: string]: FormatedAdvancement[];
+    }>
+  >;
+  statistics: { [uuid: string]: Statistics };
+  setStatistics: React.Dispatch<
+    React.SetStateAction<{
+      [uuid: string]: Statistics;
+    }>
+  >;
+  playersFullSkin: { [playerName: string]: string };
+  setPlayersFullSkin: React.Dispatch<
+    React.SetStateAction<{
+      [playerName: string]: string;
+    }>
+  >;
 }>({
   countriesData: undefined,
   playersData: undefined,
@@ -57,6 +77,12 @@ export const DbContext = React.createContext<{
   setServerQueryData: () => {},
   playersHead: [],
   setPlayersHead: () => {},
+  advancements: {},
+  setAdvancements: () => {},
+  statistics: {},
+  setStatistics: () => {},
+  playersFullSkin: {},
+  setPlayersFullSkin: () => {},
 });
 
 const root = ReactDOM.createRoot(document.getElementById("root") as HTMLElement);
@@ -86,6 +112,15 @@ function App() {
     context.serverQueryData
   );
   const [playersHead, setPlayersHead] = useState<playerHead[]>(context.playersHead);
+  const [advancements, setAdvancements] = useState<{
+    [uuid: string]: FormatedAdvancement[];
+  }>(context.advancements);
+  const [statistics, setStatistics] = useState<{
+    [uuid: string]: Statistics;
+  }>(context.statistics);
+  const [playersFullSkin, setPlayersFullSkin] = useState<{
+    [playerName: string]: string;
+  }>(context.playersFullSkin);
 
   useEffect(() => {
     getCountries().then(setCountriesData);
@@ -110,6 +145,12 @@ function App() {
           setServerQueryData,
           playersHead,
           setPlayersHead,
+          advancements,
+          setAdvancements,
+          statistics,
+          setStatistics,
+          playersFullSkin,
+          setPlayersFullSkin,
         }}
       >
         <Routes>
