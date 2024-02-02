@@ -1,11 +1,11 @@
-.achievementsContainer {
+.advancementsContainer {
   width: 100%;
   height: 100%;
   margin-top: 15px;
   overflow-y: auto;
 }
 
-.achievementContainer {
+.advancementContainer {
   position: relative;
   height: 9.5vw;
 }

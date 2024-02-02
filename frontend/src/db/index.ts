@@ -10,6 +10,7 @@ type PlayerData = {
   countryCode: string;
   role: string;
   playtime: number;
+  uuid: string;
 };
 
 type CountryData = {
@@ -30,7 +31,8 @@ type Statistic = {
 };
 
 type Advancement = {
-  name: string;
+  uuid: string;
+  id: string;
   date: number;
 };
 
@@ -62,6 +64,7 @@ const getPlayers = async () => {
       countryCode: player.country_code,
       role: player.role,
       playtime: player.playtime,
+      uuid: player.uuid,
     };
   });
 
@@ -167,10 +170,10 @@ const getStatistics = async (username: string): Promise<Statistic[]> => {
   return statistics;
 };
 
-const getAdvancements = async (username: string): Promise<Advancement[]> => {
-  const advancements: Advancement[] = await fetch(
-    "/api/advancements?username=" + username
-  ).then((res) => res.json());
+const getAdvancements = async (uuid: string): Promise<Advancement[]> => {
+  const advancements: Advancement[] = await fetch("/api/advancements?uuid=" + uuid).then(
+    (res) => res.json()
+  );
 
   advancements.sort((a, b) => b.date - a.date);
   return advancements;

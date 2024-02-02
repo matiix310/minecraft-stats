@@ -45,4 +45,14 @@ const getActiveUsers = async (dates: string[]) => {
   }
 };
 
-export { getCountries, getUsers, getActiveUsers };
+const getAdvancements = async (uuid: string) => {
+  const query = "SELECT * FROM advancements WHERE uuid=?";
+  try {
+    const [result] = await pool.execute(query, [uuid]);
+    return result;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export { getCountries, getUsers, getActiveUsers, getAdvancements };

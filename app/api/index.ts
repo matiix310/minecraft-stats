@@ -1,7 +1,7 @@
 import express from "express";
 const router = express.Router();
 
-import { getActiveUsers, getCountries, getUsers } from "../Database";
+import { getActiveUsers, getAdvancements, getCountries, getUsers } from "../Database";
 
 // middleware that is specific to this router
 router.use((req, res, next) => {
@@ -41,13 +41,21 @@ router.get("/activeUsers", async (req, res) => {
 });
 
 router.get("/onlinePlayers", async (req, res) => {
-  const apiRes = (await fetch(
-    "http://" + process.env.MINECRAFT_HOST + ":" + process.env.MINECRAFT_API_PORT + "/api"
-  ).then((res) => res.json())) as {
-    onlinePlayers: { name: string; health: number }[];
-  };
-
-  res.json(apiRes.onlinePlayers);
+  try {
+    const apiRes = (await fetch(
+      "http://" +
+        process.env.MINECRAFT_HOST +
+        ":" +
+        process.env.MINECRAFT_API_PORT +
+        "/api"
+    ).then((res) => res.json())) as {
+      onlinePlayers: { name: string; health: number }[];
+    };
+    res.json(apiRes.onlinePlayers);
+  } catch (error) {
+    console.error(error);
+    res.json([]);
+  }
 });
 
 router.get("/statistics", async (req, res) => {
@@ -104,46 +112,14 @@ router.get("/statistics", async (req, res) => {
 });
 
 router.get("/advancements", async (req, res) => {
-  const username = req.query.username;
+  const uuid = req.query.uuid;
 
-  if (!username) {
+  if (!uuid || uuid.length != 36) {
     res.json([]);
     return;
   }
 
-  // const apiRes = (await fetch(
-  //   "http://" +
-  //     process.env.MINECRAFT_HOST +
-  //     ":" +
-  //     process.env.MINECRAFT_API_PORT +
-  //     "/api/advancements/" +
-  //     username
-  // ).then((res) => res.json())) as {
-  //   statistics: {
-  //     name: string;
-  //     value: number;
-  //     rank: number;
-  //   }[];
-  // };
-
-  const advancements: {
-    name: string;
-    date: number;
-  }[] = [
-    {
-      name: "nether:nether/netherite_armor",
-      date: 1706139853,
-    },
-    {
-      name: "nether:nether/create_full_beacon",
-      date: 0,
-    },
-    {
-      name: "adventure:adventure/voluntary_exile",
-      date: 0,
-    },
-  ];
-
+  const advancements = await getAdvancements(uuid.toString());
   res.json(advancements);
 });
 

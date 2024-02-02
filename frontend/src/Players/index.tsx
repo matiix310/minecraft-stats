@@ -4,10 +4,22 @@ import PlayerBody from "./components/PlayerBody";
 import Statistics from "./components/Statistics";
 import Advancements from "./components/Advancements";
 import CountryInfo from "./components/CountryInfo";
+import { useContext, useEffect, useState } from "react";
+import { DbContext } from "..";
 
 const Player = () => {
   const params = useParams();
   const navigate = useNavigate();
+  const { playersData } = useContext(DbContext);
+  const [uuid, setUuid] = useState<string>();
+
+  useEffect(() => {
+    const username = params.playerName;
+    if (username && playersData) {
+      const tempUuid = playersData.find((player) => player.name === username)?.uuid;
+      if (tempUuid) setUuid(tempUuid);
+    }
+  }, [playersData, params.playerName]);
 
   const username = params.playerName;
   if (!username) {
@@ -34,8 +46,8 @@ const Player = () => {
           <Statistics username={username} />
         </div>
         <div className="bento">
-          <h1 className="title">Achievements</h1>
-          <Advancements username={username} />
+          <h1 className="title">Advancements</h1>
+          {uuid && <Advancements uuid={uuid} />}
         </div>
         <div className="bento">
           <PlayerBody playerName={username} />
