@@ -69,8 +69,6 @@ router.get("/statistics", async (req, res) => {
   const playerStatsPath = statsPath + uuid + ".json";
   const ranksPath = path.resolve("./") + "/build/app/api/players-rank.json";
 
-  console.log(playerStatsPath);
-
   if (!uuid || uuid.length != 36 || !fs.existsSync(playerStatsPath)) {
     res.json([]);
     console.log(!fs.existsSync(playerStatsPath));
