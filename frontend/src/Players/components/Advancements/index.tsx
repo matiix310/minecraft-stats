@@ -61,6 +61,7 @@ const Advancements = ({ uuid }: AdvancementsProps) => {
           const date = moment.unix(advancement.date);
           const day = date.format("DD / MM");
           const year = date.format("YYYY");
+          console.log(advancement);
           return (
             <div className={styles.advancementContainer}>
               <div className={styles.nameContainer}>
