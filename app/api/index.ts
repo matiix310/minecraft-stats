@@ -65,7 +65,7 @@ router.get("/onlinePlayers", async (req, res) => {
 router.get("/statistics", async (req, res) => {
   const uuid = req.query.uuid;
 
-  const statsPath = process.env.MINECRAFT_WORLD_PATH + "statistics/";
+  const statsPath = process.env.MINECRAFT_WORLD_PATH + "stats/";
   const playerStatsPath = statsPath + uuid + ".json";
   const ranksPath = path.resolve("./") + "/build/app/api/players-rank.json";
 
