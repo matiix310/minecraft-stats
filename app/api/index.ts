@@ -4,7 +4,8 @@ import path from "path";
 
 const router = express.Router();
 
-import { getActiveUsers, getAdvancements, getCountries, getUsers } from "../Database";
+import { getActiveUsers, getCountries, getUsers } from "../Database";
+import moment from "moment";
 
 // middleware that is specific to this router
 router.use((req, res, next) => {
@@ -64,7 +65,7 @@ router.get("/onlinePlayers", async (req, res) => {
 router.get("/statistics", async (req, res) => {
   const uuid = req.query.uuid;
 
-  const statsPath = process.env.MINECRAFT_PATH;
+  const statsPath = process.env.MINECRAFT_WORLD_PATH + "statistics/";
   const playerStatsPath = statsPath + uuid + ".json";
   const ranksPath = path.resolve("./") + "/build/app/api/players-rank.json";
 
@@ -152,13 +153,42 @@ router.get("/statistics", async (req, res) => {
 
 router.get("/advancements", async (req, res) => {
   const uuid = req.query.uuid;
+  const advancementsPath = process.env.MINECRAFT_WORLD_PATH + "advancements/";
+  const playerAdvancementsPath = advancementsPath + uuid + ".json";
 
-  if (!uuid || uuid.length != 36) {
+  if (!uuid || uuid.length != 36 || !fs.existsSync(playerAdvancementsPath)) {
     res.json([]);
     return;
   }
 
-  const advancements = await getAdvancements(uuid.toString());
+  type Advancement = {
+    criteria: {
+      [advName: string]: string;
+    };
+    done: boolean;
+  };
+
+  const playerAdvancementsRow = JSON.parse(
+    fs.readFileSync(playerAdvancementsPath, "utf-8")
+  );
+
+  delete playerAdvancementsRow.DataVersion;
+
+  const playerAdvancements: {
+    [key: `minecraft:${string}`]: Advancement;
+  } = playerAdvancementsRow;
+
+  const advancements = Object.entries(playerAdvancements)
+    .filter(([key, value]) => !key.startsWith("minecraft:recipes") && value.done)
+    .map(([key, value]) => ({
+      id: key,
+      date: moment(
+        Object.entries(value.criteria).sort((a, b) =>
+          moment(a[1]).isAfter(moment(b[1])) ? 1 : -1
+        )[0][1]
+      ).unix(),
+    }));
+
   res.json(advancements);
 });
 

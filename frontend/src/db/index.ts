@@ -42,7 +42,6 @@ type Statistics = {
 };
 
 type Advancement = {
-  uuid: string;
   id: string;
   date: number;
 };

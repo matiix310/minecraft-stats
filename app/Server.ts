@@ -14,6 +14,8 @@ export class Server {
     // api router
     this.app.use("/api", apiRouter);
 
+    this.app.use("/map", express.static(process.env.MINECRAFT_SQUAREMAP_PATH));
+
     // expose static assets
     this.app.use(express.static(path.resolve("./") + "/build/frontend"));
 
