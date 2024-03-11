@@ -55,4 +55,36 @@ const getAdvancements = async (uuid: string) => {
   }
 };
 
-export { getCountries, getUsers, getActiveUsers, getAdvancements };
+const getMinecraftUUID = async (discordUUID: String): Promise<String | null> => {
+  const query = "SELECT minecraft_uuid FROM discord WHERE discord_uuid=?";
+  try {
+    const [result] = await pool.execute(query, [discordUUID]);
+    const content = result as String[];
+
+    if (content.length == 0) return null;
+    return content[0]["minecraft_uuid"];
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+const getVisibleOnMapPlayers = async (): Promise<String[]> => {
+  const query = "SELECT uuid FROM users WHERE visible_on_map=1";
+  try {
+    const [result] = await pool.execute(query);
+    const content = result as String[];
+
+    return content.map((c) => c["uuid"]);
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export {
+  getCountries,
+  getUsers,
+  getActiveUsers,
+  getAdvancements,
+  getMinecraftUUID,
+  getVisibleOnMapPlayers,
+};

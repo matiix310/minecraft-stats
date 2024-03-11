@@ -4,7 +4,12 @@ import path from "path";
 
 const router = express.Router();
 
-import { getActiveUsers, getCountries, getUsers } from "../Database";
+import {
+  getActiveUsers,
+  getCountries,
+  getUsers,
+  getVisibleOnMapPlayers,
+} from "../Database";
 import moment from "moment";
 
 // middleware that is specific to this router
@@ -60,6 +65,36 @@ router.get("/onlinePlayers", async (req, res) => {
     console.error(error);
     res.json([]);
   }
+});
+
+router.get("/players", async (req, res) => {
+  const playersPath = process.env.MINECRAFT_SQUAREMAP_PATH + "/tiles/players.json";
+  const rowData = fs.readFileSync(playersPath, "utf-8");
+
+  if (rowData.includes("[]")) {
+    const data = JSON.parse(
+      rowData.replace("max", '"max"').replace("players", '"players"')
+    );
+    return res.json(data);
+  }
+
+  const data = JSON.parse(rowData);
+
+  const visiblePlayers = (await getVisibleOnMapPlayers()).map((uuid) =>
+    uuid.replaceAll("-", "")
+  );
+
+  if (
+    req.session["passport"] &&
+    req.session["passport"].user.minecraftUUID &&
+    !visiblePlayers.includes(req.session["passport"].user.minecraftUUID)
+  ) {
+    visiblePlayers.push(req.session["passport"].user.minecraftUUID.replaceAll("-", ""));
+  }
+
+  data["players"] = data["players"].filter((p) => visiblePlayers.includes(p.uuid));
+
+  return res.json(data);
 });
 
 router.get("/statistics", async (req, res) => {
