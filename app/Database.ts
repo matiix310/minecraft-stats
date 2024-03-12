@@ -80,6 +80,20 @@ const getVisibleOnMapPlayers = async (): Promise<String[]> => {
   }
 };
 
+const changeVisibleOnMap = async (
+  minecraftUUID: String,
+  visibleOnMap: String
+): Promise<Boolean> => {
+  const query = "UPDATE users SET visible_on_map=? WHERE uuid=?;";
+  try {
+    const _ = await pool.execute(query, [visibleOnMap, minecraftUUID]);
+    return true;
+  } catch (error) {
+    console.error(error);
+    return false;
+  }
+};
+
 export {
   getCountries,
   getUsers,
@@ -87,4 +101,5 @@ export {
   getAdvancements,
   getMinecraftUUID,
   getVisibleOnMapPlayers,
+  changeVisibleOnMap,
 };

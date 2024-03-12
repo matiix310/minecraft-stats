@@ -5,6 +5,7 @@ import path from "path";
 const router = express.Router();
 
 import {
+  changeVisibleOnMap,
   getActiveUsers,
   getCountries,
   getUsers,
@@ -226,6 +227,54 @@ router.get("/advancements", async (req, res) => {
     }));
 
   res.json(advancements);
+});
+
+router.get("/checkLogin", async (req, res) => {
+  return res.json({
+    login:
+      req.session["passport"] != undefined &&
+      req.session["passport"]["user"] != undefined &&
+      req.session["passport"]["user"]["minecraftUUID"] != null,
+  });
+});
+
+router.get("/isVisibleOnMap", async (req, res) => {
+  const error =
+    req.session["passport"] == undefined ||
+    req.session["passport"]["user"] == undefined ||
+    req.session["passport"]["user"]["minecraftUUID"] == null;
+
+  const visibleOnMap = error
+    ? null
+    : (await getVisibleOnMapPlayers()).includes(
+        req.session["passport"]["user"]["minecraftUUID"]
+      );
+
+  return res.json({
+    error,
+    visibleOnMap,
+  });
+});
+
+router.get("/changeVisibleOnMap", async (req, res) => {
+  const visibleOnMap = req.query.visibleOnMap;
+
+  if (
+    req.session["passport"] == undefined ||
+    req.session["passport"]["user"] == undefined ||
+    req.session["passport"]["user"]["minecraftUUID"] == null ||
+    visibleOnMap == undefined ||
+    (visibleOnMap != "1" && visibleOnMap != "0")
+  )
+    return res.json({ error: true });
+
+  const minecraftUUID = req.session["passport"]["user"]["minecraftUUID"];
+
+  const done = await changeVisibleOnMap(minecraftUUID, visibleOnMap);
+
+  return res.json({
+    error: !done,
+  });
 });
 
 export default router;
